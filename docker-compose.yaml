@@ -1,7 +1,7 @@
 version: "3"
 services:
-  vehicletypenet-tao-toolkit:
-    container_name: vehicletypenet-tao-toolkit
+  heartrate-tao-toolkit:
+    container_name: heartrate-tao-toolkit
     build:
       context: .
       dockerfile: ./Dockerfile
