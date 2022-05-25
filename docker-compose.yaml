@@ -1,0 +1,11 @@
+version: "3"
+services:
+  vehicletypenet-tao-toolkit:
+    container_name: vehicletypenet-tao-toolkit
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./:/app/src
+    working_dir: /app/src
+    tty: true
