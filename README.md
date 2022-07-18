@@ -10,6 +10,7 @@ heartrateestimation-on-tao-toolkit は、NVIDIA TAO TOOLKIT を用いて HeartRa
 
 ## HeartRateEstimationについて
 HeartRateEstimation は、画像内の顔を検出し、心拍数を返すAIモデルです。  
+HeartRateEstimation は、特徴抽出にConvolutional Attention Networksを使用しています。  
 
 ## 動作手順
 
@@ -28,3 +29,13 @@ tao-convert:
 
 ## engineファイルについて
 engineファイルである heartrate.engine は、[heartrateestimation-on-deepstream](https://github.com/latonaio/heartrateestimation-on-deepstream)と共通のファイルであり、本レポジトリで作成した engineファイルを、当該リポジトリで使用しています。  
+
+## 演算について
+本レポジトリでは、ニューラルネットワークのモデルにおいて、エッジコンピューティング環境での演算スループット効率を高めるため、FP16(半精度浮動小数点)を使用しています。  
+浮動小数点値の変更は、Makefileの以下の部分を変更し、engineファイルを生成してください。
+
+```
+tao-convert:
+	docker exec -it heartrate-tao-toolkit tao-converter -k nvidia_tlt -p motion_input:0,1x3x72x72,16x3x72x72,16x3x72x72 -p appearance_input:0,1x1x3x72x72,1x16x3x72x72,1x16x3x72x72 \
+		-t fp16 -d 3,72,72 -e /app/src/heartrate.engine /app/src/model.etlt
+```
